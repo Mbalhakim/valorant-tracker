@@ -46,7 +46,7 @@ export default {
   name: "MMRForm",
   data() {
     return {
-      userName: 'Tenz',
+      userName: 'tenz',
       tagLine: '2001',
       region:'eu'
     }

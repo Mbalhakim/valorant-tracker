@@ -1,21 +1,25 @@
 <template>
 
-  <section class="p-5 bg-dark text-light">
+  <section v-if="matchAccountHolder.data" class="bg-dark text-light">
     <div class="container">
       <h1>Match History</h1>
+
 <match-results :match-player="matchAccountHolder"  :matches="matchHistoryResponse"/>
     </div>
   </section>
+
+
 </template>
 
 <script>
 
 
 import MatchResults from "@/components/matchResults";
+
 export default {
   name: "MatchHistory",
   components: {MatchResults},
-  props: ['matchHistoryResponse', 'matchAccountHolder'],
+  props: ['matchAccountHolder'],
   data() {
     return {
       matchKEy: '',
