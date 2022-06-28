@@ -1,6 +1,7 @@
 <template>
 
   <div class="home">
+    <NavBar />
     <MMRForm @childToHomeParent="onChildClick($event)"/>
     <AccountVue :account-response="accountData"/>
     <MMRData :mmr-response="mmrData" :mmr-history-response="mmrHistory"/>
@@ -21,7 +22,7 @@ import AccountVue from "@/components/AccountVue";
 import MMRData from "@/components/MMRData";
 import MatchHistory from "@/components/MatchHistory";
 import axios from "axios";
-
+import NavBar from "@/components/NavBar";
 
 
 // @ is an alias to /src
@@ -40,10 +41,10 @@ export default {
       accountData: {},
       mmrData: {},
       mmrHistory: {},
-      matchHistory: {}
+      matchHistory: {},
     }
   },
-  components: { MMRForm, MatchHistory, MMRData, AccountVue},
+  components: {NavBar, MMRForm, MatchHistory, MMRData, AccountVue},
   methods: {
     onChildClick(value) {
       this.userCreds.userName = value.userName;
@@ -56,16 +57,18 @@ export default {
 
     },
 
-   async AccountDataRequest() {
+    async AccountDataRequest() {
+      localStorage.removeItem('userData')
       console.log("Requesting AccountDataRequest")
 
-     await axios
+      await axios
 
           .get(accountUrl + '/' + this.userCreds.userName + '/' + this.userCreds.tagLine, {
             'Content-type': 'application/ld+json',
           })
           .then((response) => {
             this.accountData = response.data;
+            localStorage.setItem('userData',this.accountData.data.name)
 
 
           })
@@ -92,10 +95,10 @@ export default {
 
     },
 
-   async MMRDataRequest() {
+    async MMRDataRequest() {
       console.log("Requesting MMRDataRequest")
 
-    await  axios
+      await axios
 
           .get(mmrURL + '/' + this.userCreds.region + '/' + this.userCreds.userName + '/' + this.userCreds.tagLine, {
             'Content-type': 'application/ld+json',
@@ -128,10 +131,10 @@ export default {
 
     },
 
-   async MMRHistoryRequest() {
+    async MMRHistoryRequest() {
       console.log("Requesting MMRHistoryRequest")
 
-    await  axios
+      await axios
 
           .get(mmrHistoryURL + '/' + this.userCreds.region + '/' + this.userCreds.userName + '/' + this.userCreds.tagLine, {
             'Content-type': 'application/ld+json',
@@ -164,60 +167,15 @@ export default {
 
     },
 
-   // async matchHistoryRequest() {
-   //    console.log("Requesting matchHistoryRequest")
-   //
-   //  await  axios
-   //
-   //        .get(MatchHistoryURL + '/' + this.userCreds.region + '/' + this.userCreds.userName + '/' + this.userCreds.tagLine + '?filter=' + this.gameMode, {
-   //          'Content-type': 'application/ld+json',
-   //        })
-   //        .then((response) => {
-   //          this.matchHistory = response;
-   //          console.log(this.matchHistory)
-   //          // let value = this.userName
-   //          // this.matchHistory.find(
-   //          //     function (str){
-   //          //
-   //          //        return console.log(str == value)
-   //          //
-   //          //     }
-   //          //
-   //          // )
-   //
-   //        })
-   //
-   //        .catch(function (error) {
-   //          console.log(error)
-   //          // handle error
-   //          if (error.message === "Request failed with status code 403") {
-   //            alert("Please dont use hashtags")
-   //          } else if (error.message === "Request failed with status code 404") {
-   //            alert("Player not found or does not play on")
-   //
-   //          } else if (error.message === "Request failed with status code 401") {
-   //            alert("Your API key was missing from the request, or wasn't correct.")
-   //
-   //          } else if (error.message === "Request failed with status code 500") {
-   //            alert("Something went wrong on our side.")
-   //
-   //          }
-   //
-   //        })
-   //        .then(function () {
-   //
-   //        });
-   //
-   //  },
 
   },
 
   mounted() {
+console.log(localStorage.userData.name)
 
-    // this.MMRDataRequest();
-    // this.MMRHistoryRequest();
-    // this.matchHistoryRequest();
-  }
+
+  },
+
 }
 </script>
 <style scoped>

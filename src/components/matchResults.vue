@@ -15,8 +15,8 @@
 
       <div
           :style="{ 'background': `linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)), url(${require('@/assets/maps/' + match.metadata.map + '.jpg')})`,'background-size':'cover' , 'background-repeat':'no-repeat',  }"
-          class=" row   matchResultsFeed" v-if="match.team==='Blue' ">
-
+          class="    matchResultsFeed" v-if="match.team==='Blue' ">
+        <router-link  class="row text-white text-decoration-none" :to="{ name: 'matchStats', params: { id: match.metadata.matchid }}">
           <span class=" float-end  bg-primary "> {{ match.metadata.game_start_patched }}
           {{ match.session_playtime.minutes }} Minutes</span>
 
@@ -43,6 +43,7 @@
             <span> {{ match.stats.kills }}/{{ match.stats.deaths }}/{{ match.stats.assists }}</span>
           </div>
         </div>
+          </router-link>
 
       </div>
       <!--          player team is blue but blue team lost-->
@@ -50,6 +51,8 @@
       <div
           :style="{ 'background-image': `linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)), url(${require('@/assets/maps/' + match.metadata.map + '.jpg' )}) `,'background-size':'cover' , 'background-repeat':'no-repeat' }"
           class="   row " v-else-if="match.team==='Red' ">
+        <router-link  class="row text-white text-decoration-none" :to="{ name: 'matchStats', params: { id: match.metadata.matchid }}">
+
 
         <span class=" float-end bg-danger  "> {{ match.metadata.game_start_patched }}
           {{ match.session_playtime.minutes }} Minutes </span>
@@ -82,14 +85,15 @@
           </div>
 
         </div>
+        </router-link>
       </div>
 
 
     </div>
 
   </div>
-  <div v-else>
-    no data
+  <div v-else class="text-center p-5">
+    <span class="h1">No data Found for the selected game mode</span>
   </div>
 </template>
 
@@ -130,17 +134,19 @@ export default {
       this.matchResult = [];
       if (this.matchHistory.data.data.length === 0) {
         this.noData = false
-        console.log("nopeee")
+        console.log("no data found")
 
       } else {
         this.noData = true
       }
 
       playerName = this.matchPlayer.data.name;
+      console.log("playername ",playerName)
 
 
       for (match of this.matchHistory.data.data) {
         this.allPlayers = match.players.all_players;
+        console.log("all players",this.allPlayers)
 
         for (player of this.allPlayers) {
 
@@ -148,14 +154,21 @@ export default {
           if (player.name === playerName) {
 
             this.playerTeam.teamPro = player.team
+            localStorage.setItem("playerTeam",player.team)
+            console.log("player team",player.team)
+
             this.playerTeam.characterPro = player.character
+            console.log("player character",player.character)
+
             this.playerTeam.killImg = player.assets.agent.killfeed
+            console.log("player killImg",player.assets.agent.killfeed)
+
 
             let returnTarget = Object.assign(match, player, this.playerTeam);
             // this.playerStats = Object.assign(player)
             // console.log( "Stats" ,this.playerStats)
             this.matchResult.push(returnTarget)
-            console.log(this.matchResult)
+            // console.log(this.matchResult,match, this.playerTeam)
 
             // console.log(match, player.name, match.metadata.map)
 
@@ -173,6 +186,8 @@ export default {
     },
 
     async matchHistoryRequest() {
+
+
       console.log("Requesting matchHistoryRequest")
 
       await axios
@@ -222,6 +237,10 @@ export default {
     },
   },
   mounted() {
+
+  },
+  created() {
+
     this.matchHistoryRequest();
   }
 }

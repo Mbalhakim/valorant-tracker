@@ -1,5 +1,5 @@
 <template>
-  <section v-if="mmrHistoryResponse.name!==null" class="p-5 text-light" style="background:#364966 " id="contact">
+  <section v-if="mmrHistoryResponse.data" class="p-5 text-light" style="background:#364966 " id="contact">
     <div class="container">
       <h2 class="text-center mb-4">MMR History</h2>
       <div class="row  row-cols-lg-4 row-cols-md-2  g-lg-3 g-4 ">
