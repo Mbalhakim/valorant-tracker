@@ -117,20 +117,23 @@ export default {
           })
 
           .catch(function (error) {
-            this.offlinePage = true
+
             // handle error
             if (error.message === "Request failed with status code 403") {
-              alert("Please dont use hashtags")
+              console.log("Please dont use hashtags")
             } else if (error.message === "Request failed with status code 429") {
               alert("Player Not Found")
+              this.offlinePage = true
 
-            } else if (error.message === "Request failed with status code 401") {
-              alert("Your API key was missing from the request, or wasn't correct.")
+            } else if (error.message === "Request failed with status code 404") {
+              alert("PLayer not Found")
+              this.offlinePage = true
 
             } else if (error.message === "Request failed with status code 500") {
               alert("Something went wrong on our side.")
 
             }
+
 
           })
           .then(function () {
@@ -156,15 +159,15 @@ export default {
           .catch(function (error) {
             // handle error
             if (error.message === "Request failed with status code 403") {
-              alert("API key has exceeded calls per month quota")
+              // console.log("API key has exceeded calls per month quota")
             } else if (error.message === "Request failed with status code 400") {
-              alert("No location found matching parameter, often due to a missing or mistyped city or country")
+              // console.log("No location found matching parameter, often due to a missing or mistyped city or country")
 
             } else if (error.message === "Request failed with status code 401") {
-              alert("Your API key was missing from the request, or wasn't correct.")
+              // console.log("Your API key was missing from the request, or wasn't correct.")
 
             } else if (error.message === "Request failed with status code 500") {
-              alert("Something went wrong on our side.")
+              // console.log("Something went wrong on our side.")
 
             }
 
@@ -185,7 +188,7 @@ export default {
           })
           .then((response) => {
             this.mmrHistory = response.data;
-            console.log(this.mmrHistory)
+            // console.log(this.mmrHistory)
 
 
           })
@@ -193,15 +196,15 @@ export default {
           .catch(function (error) {
             // handle error
             if (error.message === "Request failed with status code 403") {
-              alert("Please dont use hashtags")
+              // console.log("Please dont use hashtags")
             } else if (error.message === "Request failed with status code 429") {
-              alert("PLayer Not Found")
+              // console.log("PLayer Not Found")
 
             } else if (error.message === "Request failed with status code 401") {
-              alert("Your API key was missing from the request, or wasn't correct.")
+              // console.log("Your API key was missing from the request, or wasn't correct.")
 
             } else if (error.message === "Request failed with status code 500") {
-              alert("Something went wrong on our side.")
+              // console.log("Something went wrong on our side.")
 
             }
 
@@ -225,9 +228,9 @@ export default {
       this.MMRDataRequest();
       this.MMRHistoryRequest();
 
-      console.log(`UserName exists`, localStorage);
+      // console.log(`UserName exists`, localStorage);
     } else {
-      console.log(`UserName  not found`);
+      // console.log(`UserName  not found`);
     }
 
 

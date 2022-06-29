@@ -178,7 +178,7 @@ export default {
 
 
           } else {
-            console.log("No match")
+            // console.log("No match")
           }
 
 
@@ -192,7 +192,7 @@ export default {
     async matchHistoryRequest() {
 
 
-      console.log("Requesting matchHistoryRequest")
+      // console.log("Requesting matchHistoryRequest")
 
       await axios
 
@@ -221,15 +221,15 @@ export default {
             console.log(error)
             // handle error
             if (error.message === "Request failed with status code 403") {
-              alert("Please dont use hashtags")
+              console.log("Please dont use hashtags")
             } else if (error.message === "Request failed with status code 404") {
-              alert("Player not found or does not play on")
+              alert("Match not found ")
 
             } else if (error.message === "Request failed with status code 401") {
-              alert("Your API key was missing from the request, or wasn't correct.")
+              console.log("Your API key was missing from the request, or wasn't correct.")
 
             } else if (error.message === "Request failed with status code 500") {
-              alert("Something went wrong on our side.")
+              console.log("Something went wrong on our side.")
 
             }
 

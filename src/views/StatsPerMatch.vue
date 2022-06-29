@@ -1,10 +1,10 @@
 <template>
 <NavBar />
-  <section class="bg-dark py-5   text-light ">
+  <section v-if="matchStats.data" class="bg-dark py-5   text-light ">
     <div class="container img-fluid">
 
       <h1 class="text-center py-5">Valorant Match Stats</h1>
-      <div  v-if="matchStats.data" class="text-center  py-5">
+      <div   class="text-center  py-5">
         <h1>Map: {{ matchStats.data.data.metadata.map }}</h1>
         <img class="img-fluid" :src="require('../assets/maps/' + matchStats.data.data.metadata.map + '.jpg')" alt="map">
       </div>
@@ -111,6 +111,19 @@
       </div>
     </div>
   </section>
+  <section class="p-5 bg-dark text-light offlinePage" v-if="offlineMatchPage===true">
+    <div class="container p-5 ">
+      <div class="container p-5 ">
+        <div class="container p-5 ">
+          <div class="container p-5 ">
+            <h1 class="text-center">Results can be show through Home match link <router-link  class=" text-danger " :to="{ name: 'home',}"> Home
+            </router-link></h1>
+
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
 <FooterComp />
 </template>
 
@@ -135,6 +148,7 @@ export default {
       TeamRed: [],
       TeamA: [],
       TeamB: [],
+      offlineMatchPage:null,
 
 
       playersTeamA: "",
@@ -156,6 +170,7 @@ export default {
           })
           .then((response) => {
             this.matchStats = response;
+            this.offlineMatchPage = false
             this.getMatchResults();
             // console.log(this.matchStats)
 
@@ -167,13 +182,16 @@ export default {
             if (error.message === "Request failed with status code 403") {
               alert("Please dont use hashtags")
             } else if (error.message === "Request failed with status code 404") {
-              alert("Player not found or does not play on")
+              alert("Match Stats must be through Home match Link")
+              this.offlineMatchPage = false
 
             } else if (error.message === "Request failed with status code 401") {
-              alert("Your API key was missing from the request, or wasn't correct.")
+              // console.log("Your API key was missing from the request, or wasn't correct.")
+              this.offlineMatchPage = false
 
             } else if (error.message === "Request failed with status code 500") {
               alert("Something went wrong on our side.")
+              this.offlineMatchPage = false
 
             }
 
@@ -206,7 +224,7 @@ export default {
           }
           this.TeamA.sort((a,b) => b.stats.score - a.stats.score);
           this.TeamB.sort((a,b) => b.stats.score - a.stats.score);
-          console.log("Sorting", this.TeamA)
+          // console.log("Sorting", this.TeamA)
           // console.log(this.playersTeamA)
 
         } else {
@@ -222,6 +240,7 @@ export default {
   },
 
   mounted() {
+    this.offlineMatchPage = true
     this.matchHistoryRequest()
 
 
@@ -242,6 +261,9 @@ export default {
 
 .teamB {
   background: linear-gradient(to left, rgb(24, 34, 45, 0.5), rgba(234, 17, 17, 0.5))
+}
+.offlinePage{
+  height: 100vh;
 }
 
 @media (max-width: 450px) {
