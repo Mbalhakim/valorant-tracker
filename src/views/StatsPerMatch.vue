@@ -4,28 +4,41 @@
     <div class="container img-fluid">
 
       <h1 class="text-center py-5">Valorant Match Stats</h1>
-      <h2 v-if="matchStats.data" class="text-center">Map: {{ matchStats.data.data.metadata.map }}</h2>
+      <div  v-if="matchStats.data" class="text-center  py-5">
+        <h1>Map: {{ matchStats.data.data.metadata.map }}</h1>
+        <img class="img-fluid" :src="require('../assets/maps/' + matchStats.data.data.metadata.map + '.jpg')" alt="map">
+      </div>
 
 
       <h3 class="text-center">Team A</h3>
       <div v-for="(player,index) in TeamA" :key="index" class="">
 
-        <div class="teamA row g-2 py-1">
+        <div class="teamA row  g-2 py-3 mobileRes">
 
 
           <img :src="player.assets.agent.small" class="img-fluid agentImg" alt="">
 
 
-          <div class="col  align-self-center">{{ player.name }}#{{ player.tag }}</div>
+          <div class="col  align-self-center">
+            <div class="d-flex flex-column">
+              <span>Name</span>
+              <span>{{ player.name }}#{{ player.tag }}</span>
+            </div>
+          </div>
 
-          <div class="col  align-self-center">{{ player.stats.score }}</div>
+          <div class="col  align-self-center">
+            <div class="d-flex flex-column ">
+              <span>Score</span>
+              <span>{{ player.stats.score }}</span>
+            </div>
+          </div>
           <div class="col  align-self-center">
             <div class="d-flex flex-column">
               <span>K/D/A/</span>
               <span> {{ player.stats.kills }}/{{ player.stats.deaths }}/{{ player.stats.assists }}</span>
             </div>
           </div>
-          <div class="col  align-self-center ">
+          <div class="col  align-self-center text-center">
             <div class="d-flex flex-column">
               <span>Headshots</span>
               <span> {{ player.stats.headshots }}</span>
@@ -52,14 +65,24 @@
       <div v-for="(player,index) in TeamB" :key="index">
 
 
-        <div class="teamB row g-2 ">
+        <div class="teamB mobileRes row py-3 g-2 ">
 
           <img :src="player.assets.agent.small" class="img-fluid agentImg" alt="">
 
 
-          <div class="col  align-self-center">{{ player.name }}#{{ player.tag }}</div>
+          <div class="col  align-self-center">
+          <div class="d-flex flex-column">
+            <span>Name</span>
+            <span>{{ player.name }}#{{ player.tag }}</span>
+          </div>
+          </div>
 
-          <div class="col  align-self-center">{{ player.stats.score }}</div>
+          <div class="col  align-self-center ">
+          <div class="d-flex flex-column ">
+            <span>Score</span>
+            <span>{{ player.stats.score }}</span>
+          </div>
+          </div>
           <div class="col  align-self-center">
             <div class="d-flex flex-column">
               <span>K/D/A/</span>
@@ -88,20 +111,21 @@
       </div>
     </div>
   </section>
-
+<FooterComp />
 </template>
 
 <script>
 
 import axios from "axios";
 import NavBar from "@/components/NavBar";
+import FooterComp from "@/components/FooterComp";
 
 
 let player;
 
 export default {
   name: "StatsPerMatch",
-  components: {NavBar},
+  components: {FooterComp, NavBar},
   data() {
     return {
       matchId: this.$route.params.id,
@@ -111,6 +135,7 @@ export default {
       TeamRed: [],
       TeamA: [],
       TeamB: [],
+
 
       playersTeamA: "",
       playerInfo: {
@@ -122,8 +147,7 @@ export default {
     }
   }, methods: {
     async matchHistoryRequest() {
-
-      console.log("Requesting matchHistoryRequest")
+      // console.log("Requesting matchHistoryRequest")
 
       await axios
 
@@ -132,8 +156,8 @@ export default {
           })
           .then((response) => {
             this.matchStats = response;
-            this.getMatchResults()
-            console.log(this.matchStats)
+            this.getMatchResults();
+            // console.log(this.matchStats)
 
           })
 
@@ -169,8 +193,8 @@ export default {
       for (player of this.allPlayers) {
 
 
-        if (player.name === localStorage.userData) {
-          console.log("yes")
+        if (player.name === localStorage.UserName) {
+          // console.log("yes")
           this.playersTeamA = player.team
           if (player.team === 'Blue') {
 
@@ -180,10 +204,13 @@ export default {
             this.TeamA = this.TeamRed
             this.TeamB = this.TeamBlue
           }
-          console.log(this.playersTeamA)
+          this.TeamA.sort((a,b) => b.stats.score - a.stats.score);
+          this.TeamB.sort((a,b) => b.stats.score - a.stats.score);
+          console.log("Sorting", this.TeamA)
+          // console.log(this.playersTeamA)
 
         } else {
-          console.log("No match")
+          // console.log("No match")
         }
 
 
@@ -196,9 +223,7 @@ export default {
 
   mounted() {
     this.matchHistoryRequest()
-    if (localStorage) {
-      console.log(localStorage.userData)
-    }
+
 
   }
 }
@@ -209,13 +234,7 @@ export default {
   width: 10%
 }
 
-.bgImg {
-  background: url("../assets/wall.png") no-repeat fixed;
-  -webkit-background-size: cover;
-  -moz-background-size: cover;
-  -o-background-size: cover;
-  background-size: cover;
-}
+
 
 .teamA {
   background: linear-gradient(to left, rgb(24, 34, 45, 0.5), rgb(22, 229, 180, 0.5))
@@ -227,8 +246,21 @@ export default {
 
 @media (max-width: 450px) {
   .agentImg {
-    width: 25%;
+    width: 15%;
 
   }
+  .mobileRes .col{
+    width: 80%;
+    font-size: 0.5rem;
+  }
+
+  /*.mobileRes{*/
+  /*  -moz-column-count: 3;*/
+  /*  column-count: 1;*/
+  /*  width: 30em;*/
+  /*  width: 100%;*/
+  /*  -webkit-column-break-inside: avoid;*/
+
+  /*}*/
 }
 </style>

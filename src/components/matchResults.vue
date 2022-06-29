@@ -1,24 +1,31 @@
 <template>
-<label class="form-label" for="selectoptio">Select game mode</label>
-  <select id="selectoptio" class="form-select col-sm-4" @change="matchHistoryRequest" v-model="gameMode">
-    <option value="unrated">Unrated</option>
-    <option value="competitive">Competitive</option>
-    <option value="spikerush">Spikerush</option>
-    <option value="replication">Replication</option>
-    <option value="deathmatch">Deathmatch</option>
-    <option value="escalation">Escalation</option>
-  </select>
+  <div class= "row row-cols-lg-3 align-items-end" >
+    <div class="col ">
+    <label class="form-label" for="selectoptio">Select game mode</label>
+    <select id="selectoptio" class=" form-select" @change="matchHistoryRequest" v-model="gameMode">
+      <option value="unrated">Unrated</option>
+      <option value="competitive">Competitive</option>
+      <option value="spikerush">Spikerush</option>
+      <option value="replication">Replication</option>
+      <option value="deathmatch">Deathmatch</option>
+      <option value="escalation">Escalation</option>
+    </select>
+    </div>
 
-  <button @click="getMatchResults">match results</button>
+
+  </div>
+
   <div v-if="noData " class=" text-white">
     <div v-for="(match, index) in matchResult" :key="index" class=" py-1 ">
 
       <div
           :style="{ 'background': `linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)), url(${require('@/assets/maps/' + match.metadata.map + '.jpg')})`,'background-size':'cover' , 'background-repeat':'no-repeat',  }"
-          class="    matchResultsFeed" v-if="match.team==='Blue' ">
+          class="   matchResultsFeed" v-if="match.team==='Blue' ">
         <router-link  class="row text-white text-decoration-none" :to="{ name: 'matchStats', params: { id: match.metadata.matchid }}">
-          <span class=" float-end  bg-primary "> {{ match.metadata.game_start_patched }}
-          {{ match.session_playtime.minutes }} Minutes</span>
+          <span v-if="match.teams.blue.has_won ===true" class="matchResultsFeedWon"> {{ match.metadata.game_start_patched }}
+          <span> | Session Time: {{ match.session_playtime.minutes }} Minutes</span></span>
+          <span v-else class=" matchResultsFeedLost "> {{ match.metadata.game_start_patched }}
+           <span> | Session Time: {{ match.session_playtime.minutes }} Minutes</span></span>
 
         <div class="col ">
           <img :src="match.assets.agent.small" class="img-fluid float-start agentImg" alt="agent">
@@ -50,12 +57,14 @@
 
       <div
           :style="{ 'background-image': `linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)), url(${require('@/assets/maps/' + match.metadata.map + '.jpg' )}) `,'background-size':'cover' , 'background-repeat':'no-repeat' }"
-          class="   row " v-else-if="match.team==='Red' ">
+          class="    " v-else-if="match.team==='Red' ">
         <router-link  class="row text-white text-decoration-none" :to="{ name: 'matchStats', params: { id: match.metadata.matchid }}">
 
 
-        <span class=" float-end bg-danger  "> {{ match.metadata.game_start_patched }}
-          {{ match.session_playtime.minutes }} Minutes </span>
+         <span v-if="match.teams.red.has_won ===true" class="matchResultsFeedWon"> {{ match.metadata.game_start_patched }}
+          <span> | Session Time: {{ match.session_playtime.minutes }} Minutes</span></span>
+          <span v-else class=" matchResultsFeedLost "> {{ match.metadata.game_start_patched }}
+           <span> | Session Time: {{ match.session_playtime.minutes }} Minutes</span></span>
         <div class="col ">
           <img :src="match.assets.agent.small" class="img-fluid float-start agentImg" alt="agent">
         </div>
@@ -128,25 +137,20 @@ export default {
     }
 
   },
-  props: ['matchPlayer'],
+
   methods: {
     getMatchResults() {
+
       this.matchResult = [];
-      if (this.matchHistory.data.data.length === 0) {
-        this.noData = false
-        console.log("no data found")
+      this.noData = this.matchHistory.data.data.length !== 0;
 
-      } else {
-        this.noData = true
-      }
-
-      playerName = this.matchPlayer.data.name;
-      console.log("playername ",playerName)
+      playerName = localStorage.UserName;
+      // console.log("playername ",playerName)
 
 
       for (match of this.matchHistory.data.data) {
         this.allPlayers = match.players.all_players;
-        console.log("all players",this.allPlayers)
+        // console.log("all players",this.allPlayers)
 
         for (player of this.allPlayers) {
 
@@ -155,13 +159,13 @@ export default {
 
             this.playerTeam.teamPro = player.team
             localStorage.setItem("playerTeam",player.team)
-            console.log("player team",player.team)
+            // console.log("player team",player.team)
 
             this.playerTeam.characterPro = player.character
-            console.log("player character",player.character)
+            // console.log("player character",player.character)
 
             this.playerTeam.killImg = player.assets.agent.killfeed
-            console.log("player killImg",player.assets.agent.killfeed)
+            // console.log("player killImg",player.assets.agent.killfeed)
 
 
             let returnTarget = Object.assign(match, player, this.playerTeam);
@@ -192,12 +196,12 @@ export default {
 
       await axios
 
-          .get(MatchHistoryURL + '/' + this.matchPlayer.data.region + '/' + this.matchPlayer.data.name + '/' + this.matchPlayer.data.tag + '?filter=' + this.gameMode, {
+          .get(MatchHistoryURL + '/' + localStorage.UserRegion + '/' + localStorage.UserName+ '/' + localStorage.UserTag + '?filter=' + this.gameMode, {
             'Content-type': 'application/ld+json',
           })
           .then((response) => {
             this.matchHistory = response;
-            console.log(this.matchHistory)
+            // console.log(this.matchHistory)
             this.getMatchResults();
             // this.getMatchResults();
 
@@ -251,8 +255,11 @@ export default {
   width: 40%;
 }
 
-.matchResultsFeed {
+.matchResultsFeedWon {
   background: linear-gradient(to left, rgb(24, 34, 45, 0.5), rgb(22, 229, 180, 0.5))
+}
+.matchResultsFeedLost {
+  background: linear-gradient(to left, rgb(24, 34, 45, 0.5), rgba(229, 22, 60, 0.5))
 }
 .winingTeam{
   color: #00FFD5FF;

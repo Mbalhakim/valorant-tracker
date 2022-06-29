@@ -93,7 +93,7 @@
       </div>
     </div>
   </section>
-  <section v-else class="p-5 text-light" style="background:#364966 ">
+  <section v-if="mmrHistoryResponse.name===null" class="p-5 text-light" style="background:#364966 ">
     <div class="container text-center">
 <h1>Player has not played Ranked yet</h1>
     </div>
@@ -126,15 +126,15 @@ export default {
   methods: {
     rankImg() {
       for (let rankImg of this.mmrHistoryResponse.data) {
-        console.log(rankImg)
+        // console.log(rankImg)
 
         if (rankImg.currenttierpatched === 'Diamond 3') {
           this.rankImageUrl = '../assets/ranks/Diamond3.webq'
-          console.log(this.rankImageUrl)
+          // console.log(this.rankImageUrl)
         }
         if (rankImg.currenttierpatched === 'Immortal 1') {
           this.rankImageUrl = '../assets/ranks/immortal1.webq'
-          console.log(this.rankImageUrl)
+          // console.log(this.rankImageUrl)
         }
 
       }

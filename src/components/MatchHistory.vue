@@ -1,10 +1,10 @@
 <template>
 
-  <section v-if="matchAccountHolder.data" class="bg-dark text-light">
+  <section v-if="matchAccountHolder.data" class="bg-dark text-light py-5">
     <div class="container">
       <h1>Match History</h1>
 
-<match-results :match-player="matchAccountHolder"  :matches="matchHistoryResponse"/>
+<match-results />
     </div>
   </section>
 
@@ -36,9 +36,7 @@ export default {
   },
 
   methods: {
-    // isPlayer(player) {
-    //   return player.name === 'Tenz'
-    // },
+
 
 
 

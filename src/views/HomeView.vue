@@ -1,14 +1,51 @@
 <template>
 
   <div class="home">
-    <NavBar />
+    <NavBar/>
     <MMRForm @childToHomeParent="onChildClick($event)"/>
     <AccountVue :account-response="accountData"/>
     <MMRData :mmr-response="mmrData" :mmr-history-response="mmrHistory"/>
 
     <MatchHistory :match-account-holder="accountData"/>
+    <section v-if="offlinePage" class=" p-md-5  offline bg-dark text-light">
+      <h1 class="text-center">Valorant Tracker</h1>
 
+      <div class="container">
+       <div class="text-center">
+         <img  class="img-fluid  w-75" src="../assets/hero-jett.webp" alt="">
+       </div>
+        <div class="p-md-5">
+        <div class="py-3">
+          <h3>Account Data</h3>
+          <p class="lead fs-4">
+            With Valorant Tracker You can retrieve your account data and Stats as your Tier and Elo and Your Patched
+            Tier.
 
+          </p>
+        </div>
+        <div class="py-3">
+          <h3>MMR History</h3>
+          <p class="lead fs-4 ">
+            You can also see a history of your MMR: Matchmaking Rating When You Are playing ranked and what changes
+            happened to your last game.
+          </p>
+        </div>
+        <div class="py-3">
+          <h3>Match History</h3>
+        <p class="lead fs-4 ">
+          Check Your Last 5 games Status for Every Game Mode And Check Your KDA HeadShots, BodyShots, LegShots And Scores And Stats Of Other Players In the Same Match
+        </p>
+        </div>
+        <div class="py-3">
+          <h3>Latest News</h3>
+          <p class="lead fs-4 ">
+            Check The Latest News That Are Related To Game Updated, Developers And Esports
+          </p>
+        </div>
+        </div>
+      </div>
+    </section>
+    <FooterComp/>
   </div>
 </template>
 
@@ -23,6 +60,7 @@ import MMRData from "@/components/MMRData";
 import MatchHistory from "@/components/MatchHistory";
 import axios from "axios";
 import NavBar from "@/components/NavBar";
+import FooterComp from "@/components/FooterComp";
 
 
 // @ is an alias to /src
@@ -31,6 +69,7 @@ export default {
   name: 'HomeView',
   data() {
     return {
+      offlinePage:true,
       userCreds: {
         userName: '',
         tagLine: '',
@@ -44,7 +83,7 @@ export default {
       matchHistory: {},
     }
   },
-  components: {NavBar, MMRForm, MatchHistory, MMRData, AccountVue},
+  components: {FooterComp, NavBar, MMRForm, MatchHistory, MMRData, AccountVue},
   methods: {
     onChildClick(value) {
       this.userCreds.userName = value.userName;
@@ -58,8 +97,9 @@ export default {
     },
 
     async AccountDataRequest() {
-      localStorage.removeItem('userData')
-      console.log("Requesting AccountDataRequest")
+
+      // localStorage.removeItem('userData')
+      // console.log("Requesting AccountDataRequest")
 
       await axios
 
@@ -68,12 +108,16 @@ export default {
           })
           .then((response) => {
             this.accountData = response.data;
-            localStorage.setItem('userData',this.accountData.data.name)
+            localStorage.setItem('UserName', this.accountData.data.name);
+            localStorage.setItem('UserTag', this.accountData.data.tag);
+            localStorage.setItem('UserRegion', this.accountData.data.region);
+            this.offlinePage = false
 
 
           })
 
           .catch(function (error) {
+            this.offlinePage = true
             // handle error
             if (error.message === "Request failed with status code 403") {
               alert("Please dont use hashtags")
@@ -96,7 +140,7 @@ export default {
     },
 
     async MMRDataRequest() {
-      console.log("Requesting MMRDataRequest")
+      // console.log("Requesting MMRDataRequest")
 
       await axios
 
@@ -132,7 +176,7 @@ export default {
     },
 
     async MMRHistoryRequest() {
-      console.log("Requesting MMRHistoryRequest")
+      // console.log("Requesting MMRHistoryRequest")
 
       await axios
 
@@ -141,6 +185,7 @@ export default {
           })
           .then((response) => {
             this.mmrHistory = response.data;
+            console.log(this.mmrHistory)
 
 
           })
@@ -171,7 +216,19 @@ export default {
   },
 
   mounted() {
-console.log(localStorage.userData.name)
+// console.log(localStorage.userData.name)
+    if (localStorage.getItem('UserName') !== null) {
+      this.userCreds.userName = localStorage.UserName;
+      this.userCreds.tagLine = localStorage.UserTag;
+      this.userCreds.region = localStorage.UserRegion;
+      this.AccountDataRequest();
+      this.MMRDataRequest();
+      this.MMRHistoryRequest();
+
+      console.log(`UserName exists`, localStorage);
+    } else {
+      console.log(`UserName  not found`);
+    }
 
 
   },
@@ -179,6 +236,10 @@ console.log(localStorage.userData.name)
 }
 </script>
 <style scoped>
+.offline {
+
+}
+
 #container {
 
 

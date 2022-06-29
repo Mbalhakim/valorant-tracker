@@ -29,7 +29,7 @@
           </select>
         </div>
         <div class = "col mt-4 text-center">
-          <button type = "submit" class = "btn btn-danger text-light fw-bolder"> Submit </button>
+          <button type = "submit" class = "btn btn-danger text-light fw-bolder">Search <i class="bi bi-search"></i> </button>
         </div>
       </div>
     </form>

@@ -34,7 +34,7 @@
           </select>
         </div>
         <div class = "col mt-4 text-center">
-          <button type = "submit" class = "btn btn-danger text-light fw-bolder"> Submit </button>
+          <button type = "submit" class = "btn btn-danger text-light fw-bolder"> Search </button>
         </div>
       </div>
     </form>
@@ -46,13 +46,22 @@ export default {
   name: "MMRForm",
   data() {
     return {
-      userName: 'tenz',
-      tagLine: '2001',
-      region:'eu'
+      userName: '',
+      tagLine: '',
+      region:'eu',
+      hash:'#123123'
     }
   },
   methods:{
     axiosEmitRequest() {
+      if(this.tagLine.includes("#")){
+        console.log("it does")
+        this.tagLine = this.tagLine.replace('#', '')
+        console.log(this.tagLine)
+
+      } else {
+        console.log("it does not", this.tagLine)
+      }
       const userCredReg = {
         'userName': this.userName,
         'tagLine': this.tagLine,

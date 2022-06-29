@@ -3,14 +3,18 @@
 </template>
 
 <style>
-body {
-  -ms-overflow-style: none;
-  scrollbar-width: none;
-  overflow-y: scroll;
+body::-webkit-scrollbar {
+  width: 12px;               /* width of the entire scrollbar */
 }
 
-body::-webkit-scrollbar {
-  display: none;
+body::-webkit-scrollbar-track {
+  background:#383232  ;        /* color of the tracking area */
+}
+
+body::-webkit-scrollbar-thumb {
+  background-color: #15deaf;    /* color of the scroll thumb */
+  border-radius: 20px;       /* roundness of the scroll thumb */
+  border: 3px solid #15deaf;  /* creates padding around scroll thumb */
 }
 #app {
 

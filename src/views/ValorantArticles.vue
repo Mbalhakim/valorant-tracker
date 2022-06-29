@@ -2,10 +2,10 @@
   <NavBar />
 
   <section class="py-5 bg-dark">
-
+    <h1 class="text-center text-light ">Valorant News</h1>
     <div class="container">
       <NewsForm  @childToHomeParent="onChildClick($event)"/>
-      <h1 class="text-center text-light py-5">Valorant News</h1>
+
       <div class="row g-3  ">
           <div class="col-md-3 "  v-for="(article,index) in valorantArticles.data" :key="index">
             <div class="card bg-dark text-white ">
