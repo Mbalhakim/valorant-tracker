@@ -43,6 +43,13 @@
                   <img v-if="rank.currenttierpatched === 'Gold 3'" class="img-fluid float-end tierImg"
                        src="../assets/ranks/gold3.webp">
 
+                  <img v-if="rank.currenttierpatched === 'Ascendant 1'" class="img-fluid float-end tierImg"
+                       src="../assets/ranks/Ascendant1.png">
+                  <img v-if="rank.currenttierpatched === 'Ascendant 2'" class="img-fluid float-end tierImg"
+                       src="../assets/ranks/Ascendant2.png">
+                  <img v-if="rank.currenttierpatched === 'Ascendant 3'" class="img-fluid float-end tierImg"
+                       src="../assets/ranks/Ascendant3.png">
+
                   <img v-if="rank.currenttierpatched === 'Diamond 1'" class="img-fluid float-end tierImg"
                        src="../assets/ranks/diamond1.webp">
                   <img v-if="rank.currenttierpatched === 'Diamond 2'" class="img-fluid float-end tierImg"

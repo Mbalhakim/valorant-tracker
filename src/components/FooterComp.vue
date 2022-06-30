@@ -1,5 +1,5 @@
 <template>
-  <footer class="p-3 bg-dark matchResultsFeedWon text-white   text-center ">
+  <footer class="p-3 bg-dark matchResultsFeedWon text-white    text-center ">
     <div class="container d-flex flex-row justify-content-center align-items-center">
       <p class="lead ">Copyright &copy; 2022 <span class="fw-bold text-danger">Valorant Tracker</span> Made By:  <a target="_blank" href="https://mbalhakim.github.io/Portfolio/" class="text-decoration-none text-white fw-bolder">Bashar </a>
         <a class="text-decoration-none text-light" target="_blank" href="https://github.com/Mbalhakim/"> <i class="bi bi-github"></i> </a></p>
