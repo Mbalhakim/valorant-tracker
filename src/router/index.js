@@ -3,6 +3,7 @@ import HomeView from '../views/HomeView.vue'
 import StatsPerMatch from "@/views/StatsPerMatch";
 import ValorantArticles from "@/views/ValorantArticles";
 import MatchPlayerStats from "@/views/MatchPlayerStats";
+import About from "@/views/About";
 
 const routes = [
   {
@@ -24,6 +25,11 @@ const routes = [
     path: '/player',
     name: 'player',
     component: MatchPlayerStats
+  },
+  {
+    path: '/about',
+    name: 'about',
+    component: About
   },
 
 ]

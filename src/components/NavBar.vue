@@ -13,7 +13,12 @@
           </li>
           <li class="nav-item">
             <router-link class="nav-link" :to="{ name: 'articles'}">
-              Articles
+              News
+            </router-link>
+          </li>
+          <li class="nav-item">
+            <router-link class="nav-link" :to="{ name: 'about'}">
+              About
             </router-link>
           </li>
 

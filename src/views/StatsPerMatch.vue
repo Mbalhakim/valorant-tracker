@@ -1,79 +1,79 @@
 <template>
 <NavBar />
-  <section  v-if="offlineMatchPage===true" class="p-5 bg-dark text-light offlinePage">
-    <div class="container p-5 ">
-      <div class="container p-5 ">
-        <div class="container p-5 ">
-          <div class="container p-5 ">
 
-            <h1 class="text-center">Results can be show through Home match link <router-link  class=" text-danger " :to="{ name: 'home',}"> Home
-            </router-link></h1>
-
-          </div>
-        </div>
-      </div>
-    </div>
-  </section>
   <section v-if="matchStats.data" class="bg-dark py-5   text-light ">
     <div class="container py-5">
 
 <div  class="py-5" :style="{ 'background-image': `linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.3)), url(${require('@/assets/banermaps/' + matchStats.data.data.metadata.map + '.jpg' )}) `,'background-size':'cover' , 'background-repeat':'no-repeat' }">
   <h1 class="text-center  "> {{ matchStats.data.data.metadata.map }} Match Stats</h1>
-  <div class="row mobileRes2">
-    <div class=" col" v-for="(round, index) in this.matchStats.data.data.rounds" :key="index">
-      <div v-if="round.winning_team === 'Blue' && playersTeamA=== 'Blue'" class=" img-fluid bg-dark text-center">
-        <!--              {{index}} Method 1 {{round.winning_team}} || {{round.end_type}}-->
-        <figure>
-        <img v-if="round.end_type === 'Bomb defused'" src="../assets/win/diffusewin.webp" alt="">
-        <img v-if="round.end_type === 'Bomb detonated'" src="../assets/win/explosionwin.webp" alt="">
-        <img v-if="round.end_type === 'Eliminated'" src="../assets/win/eliminationwin.webp" alt="">
-        <img v-if="round.end_type === 'Round timer expired'" src="../assets/win/timewin.webp" alt="">
-          <figcaption class=" px-md-4">{{index+1}}</figcaption>
-        </figure>
-        <!--              <img v-else src="../assets/win/diffusewin.webp" alt="">-->
-      </div>
-      <div v-if="round.winning_team === 'Blue' && playersTeamA=== 'Red'" class="  img-fluid bg-dark text-center">
-        <!--            {{index}} Method 1 {{round.winning_team}} || {{round.end_type}}-->
-        <figure>
-        <img v-if="round.end_type === 'Bomb defused'" src="../assets/win/diffuseloss.webp" alt="">
-        <img v-if="round.end_type === 'Bomb detonated'" src="../assets/win/explosionloss.webp" alt="">
-        <img v-if="round.end_type === 'Eliminated'" src="../assets/win/eliminationloss.webp" alt="">
-          <img v-if="round.end_type === 'Round timer expired'" src="../assets/win/timeloss.webp" alt="">
 
-          <figcaption class=" px-md-4">{{index+1}}</figcaption>
-        </figure>
-        <!--              <img v-else src="../assets/win/diffusewin.webp" alt="">-->
-      </div>
-
-      <div v-if="round.winning_team === 'Red' && playersTeamA === 'Red'" class="  img-fluid bg-dark text-center ">
-        <figure>
-        <!--            {{index}} {{round.winning_team}} || {{round.end_type}}-->
-        <img v-if="round.end_type === 'Bomb defused'" src="../assets/win/diffusewin.webp" alt="">
-        <img v-if="round.end_type === 'Bomb detonated'" src="../assets/win/explosionwin.webp" alt="">
-        <img v-if="round.end_type === 'Eliminated'" src="../assets/win/eliminationwin.webp" alt="">
-          <img v-if="round.end_type === 'Round timer expired'" src="../assets/win/timewin.webp" alt="">
-
-          <figcaption class=" px-md-4">{{index+1}}</figcaption>
-        </figure>
-      </div>
-
-      <div v-if="round.winning_team === 'Red' && playersTeamA=== 'Blue'" class="  img-fluid bg-dark text-center">
-        <!--            {{index}} Method 1 {{round.winning_team}} || {{round.end_type}}-->
-        <figure>
-        <img v-if="round.end_type === 'Bomb defused'" src="../assets/win/diffuseloss.webp" alt="">
-        <img v-if="round.end_type === 'Bomb detonated'" src="../assets/win/explosionloss.webp" alt="">
-        <img v-if="round.end_type === 'Eliminated'" src="../assets/win/eliminationloss.webp" alt="">
-          <img v-if="round.end_type === 'Round timer expired'" src="../assets/win/timeloss.webp" alt="">
-
-          <!--              <img v-else src="../assets/win/diffusewin.webp" alt="">-->
-          <figcaption class=" px-md-4">{{index+1}}</figcaption>
-        </figure>
-      </div>
-
-    </div>
-  </div>
 </div>
+      <div class="table-responsive ">
+      <table class="table text-light  mt-5">
 
+        <thead>
+        <th class="" v-for="(round, index) in this.matchStats.data.data.rounds" :key="index">
+          <div v-if="round.winning_team === 'Blue' && playersTeamA=== 'Blue'" class=" img-fluid bg-dark text-center">
+            <!--              {{index}} Method 1 {{round.winning_team}} || {{round.end_type}}-->
+            <figure>
+              <figcaption class=" ">Round</figcaption>
+              <img v-if="round.end_type === 'Bomb defused'" src="../assets/win/diffusewin.webp" :alt="round.end_type">
+              <img v-if="round.end_type === 'Bomb detonated'" src="../assets/win/explosionwin.webp" :alt="round.end_type">
+              <img v-if="round.end_type === 'Eliminated'" src="../assets/win/eliminationwin.webp" :alt="round.end_type">
+              <img v-if="round.end_type === 'Round timer expired'" src="../assets/win/timewin.webp" :alt="round.end_type">
+              <img v-if="round.end_type === 'Surrendered'" src="../assets/win/earlysurrender.webp" :alt="round.end_type">
+              <figcaption class=" ">{{index+1}}</figcaption>
+            </figure>
+            <!--              <img v-else src="../assets/win/diffusewin.webp" alt="">-->
+          </div>
+          <div v-if="round.winning_team === 'Blue' && playersTeamA=== 'Red'" class="  img-fluid bg-dark text-center">
+            <!--            {{index}} Method 1 {{round.winning_team}} || {{round.end_type}}-->
+            <figure>
+              <figcaption class=" ">Round</figcaption>
+              <img v-if="round.end_type === 'Bomb defused'" src="../assets/win/diffuseloss.webp" :alt="round.end_type">
+              <img v-if="round.end_type === 'Bomb detonated'" src="../assets/win/explosionloss.webp" :alt="round.end_type">
+              <img v-if="round.end_type === 'Eliminated'" src="../assets/win/eliminationloss.webp" :alt="round.end_type">
+              <img v-if="round.end_type === 'Round timer expired'" src="../assets/win/timeloss.webp" :alt="round.end_type">
+              <img v-if="round.end_type === 'Surrendered'" src="../assets/win/earlysurrender.webp" :alt="round.end_type">
+
+              <figcaption class=" ">{{index+1}}</figcaption>
+            </figure>
+            <!--              <img v-else src="../assets/win/diffusewin.webp" alt="">-->
+          </div>
+
+          <div v-if="round.winning_team === 'Red' && playersTeamA === 'Red'" class="  img-fluid bg-dark text-center ">
+            <figure>
+              <!--            {{index}} {{round.winning_team}} || {{round.end_type}}-->
+              <figcaption class=" ">Round</figcaption>
+              <img v-if="round.end_type === 'Bomb defused'" src="../assets/win/diffusewin.webp" :alt="round.end_type">
+              <img v-if="round.end_type === 'Bomb detonated'" src="../assets/win/explosionwin.webp" :alt="round.end_type">
+              <img v-if="round.end_type === 'Eliminated'" src="../assets/win/eliminationwin.webp" :alt="round.end_type">
+              <img v-if="round.end_type === 'Round timer expired'" src="../assets/win/timewin.webp" :alt="round.end_type">
+              <img v-if="round.end_type === 'Surrendered'" src="../assets/win/earlysurrender.webp" :alt="round.end_type">
+
+              <figcaption class=" ">{{index+1}}</figcaption>
+            </figure>
+          </div>
+
+          <div v-if="round.winning_team === 'Red' && playersTeamA=== 'Blue'" class="  img-fluid bg-dark text-center">
+            <!--            {{index}} Method 1 {{round.winning_team}} || {{round.end_type}}-->
+            <figure>
+              <figcaption class=" ">Round</figcaption>
+              <img v-if="round.end_type === 'Bomb defused'" src="../assets/win/diffuseloss.webp" :alt="round.end_type">
+              <img v-if="round.end_type === 'Bomb detonated'" src="../assets/win/explosionloss.webp" :alt="round.end_type">
+              <img v-if="round.end_type === 'Eliminated'" src="../assets/win/eliminationloss.webp" :alt="round.end_type">
+              <img v-if="round.end_type === 'Round timer expired'" src="../assets/win/timeloss.webp" :alt="round.end_type">
+              <img  v-if="round.end_type === 'Surrendered'" src="../assets/win/earlysurrender.webp" :alt="round.end_type">
+
+              <!--              <img v-else src="../assets/win/diffusewin.webp" alt="">-->
+              <figcaption class=" ">{{index+1}}</figcaption>
+            </figure>
+          </div>
+
+        </th>
+        </thead>
+      </table>
+      </div>
 
 
 
@@ -130,9 +130,9 @@
 
       <h3 class="text-center py-3">Team B</h3>
       <div v-for="(player,index) in TeamB" :key="index">
+        <router-link class="teamB row text-decoration-none text-light  g-2 py-3 mobileRes" :to="{name:'player', params:{id:player.puuid, agent:player.character}}">
 
-
-        <div class="teamB mobileRes row py-3 g-2 ">
+        <div class=" mobileRes row py-3 g-2 ">
 
           <img :src="player.assets.agent.small" class="img-fluid agentImg" alt="">
 
@@ -156,7 +156,7 @@
               <span> {{ player.stats.kills }}/{{ player.stats.deaths }}/{{ player.stats.assists }}</span>
             </div>
           </div>
-          <div class="col  align-self-center ">
+          <div class="col  align-self-center text-center">
             <div class="d-flex flex-column">
               <span>Headshots</span>
               <span> {{ player.stats.headshots }}</span>
@@ -173,6 +173,24 @@
               <span>LegShots</span>
               <span> {{ player.stats.legshots }}</span>
             </div>
+          </div>
+        </div>
+        </router-link>
+      </div>
+
+    </div>
+  </section>
+
+
+  <section  v-if="offlineMatchPage===true" class="p-5 bg-dark text-light offlinePage">
+    <div class="container p-5 ">
+      <div class="container p-5 ">
+        <div class="container p-5 ">
+          <div class="container p-5 ">
+
+            <h1 class="text-center">Results can be show through Home match link <router-link  class=" text-danger " :to="{ name: 'home',}"> Home
+            </router-link></h1>
+
           </div>
         </div>
       </div>
@@ -357,7 +375,7 @@ console.log(this.matchStats)
       // console.log(`UserName exists`, localStorage);
     }
     this.matchHistoryRequest();
-
+    document.body.scrollTop = document.documentElement.scrollTop = 0;
 
   }
 }
@@ -380,6 +398,17 @@ console.log(this.matchStats)
 .offlinePage{
   height: 100vh;
 }
+.table-responsive::-webkit-scrollbar{
+  width: 12px;
+}
+.table-responsive::-webkit-scrollbar-thumb{
+  background-color: #15deaf;    /* color of the scroll thumb */
+  border-radius: 20px;       /* roundness of the scroll thumb */
+  border: 3px solid #15deaf;
+}
+.table-responsive::-webkit-scrollbar-thumb:window-inactive{
+
+}
 
 @media (max-width: 450px) {
   .agentImg {
@@ -391,29 +420,6 @@ console.log(this.matchStats)
     font-size: 0.5rem;
   }
 
-  /*.mobileRes2 .col{*/
-  /*  width: 10%;*/
 
-  /*  font-size: 0.5rem;*/
-  /*}*/
-  /*.mobileRes2 figure{*/
-  /*  width: 10%;*/
-
-
-  /*}*/
-  /*.mobileRes2 img{*/
-  /*  width: 10%;*/
-
-
-  /*}*/
-
-  /*.mobileRes{*/
-  /*  -moz-column-count: 3;*/
-  /*  column-count: 1;*/
-  /*  width: 30em;*/
-  /*  width: 100%;*/
-  /*  -webkit-column-break-inside: avoid;*/
-
-  /*}*/
 }
 </style>
