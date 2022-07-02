@@ -9,27 +9,48 @@ const routes = [
   {
     path: '/',
     name: 'home',
-    component: HomeView
+    component: HomeView,
+    meta: {
+      title: "Valorant Tracker",
+      icon:""
+    }
   },
   {
     path: '/match',
     name: 'matchStats',
-    component: StatsPerMatch
+    component: StatsPerMatch,
+    meta: {
+      title: "Login",
+      icon:"/lock.png"
+    }
   },
   {
     path: '/articles',
     name: 'articles',
-    component: ValorantArticles
+    component: ValorantArticles,
+    meta: {
+      title: "Login",
+      icon:"/lock.png"
+    }
   },
   {
     path: '/player',
     name: 'player',
-    component: MatchPlayerStats
+    component: MatchPlayerStats,
+    meta: {
+      title: "Login",
+      icon:"/lock.png"
+    }
   },
   {
     path: '/about',
     name: 'about',
-    component: About
+    component: About,
+    meta: {
+      title: "Login",
+      icon:"/lock.png"
+    }
+
   },
 
 ]

@@ -7,7 +7,7 @@
 <div class="row">
   <div class="col mt-md-5">
     <figure>
-      <img id="profileImg" class="img-thumbnail img-fluid rounded-circle" :src="accountResponse.data.card.small" alt="">
+      <img id="profileImg" class=" img-fluid rounded-circle" :src="accountResponse.data.card.small" alt="">
       <figcaption class=" px-md-4">Level: {{accountResponse.data.account_level}}</figcaption>
     </figure>
   </div>

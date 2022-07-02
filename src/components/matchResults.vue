@@ -7,7 +7,7 @@
       <option value="competitive">Competitive</option>
       <option value="spikerush">Spikerush</option>
       <option value="replication">Replication</option>
-      <option value="deathmatch">Deathmatch</option>
+<!--      <option value="deathmatch">Deathmatch</option>-->
       <option value="escalation">Escalation</option>
     </select>
     </div>
