@@ -26,7 +26,7 @@
           </thead>
         <tbody>
         <tr v-for="(kill, index) in this.killsArray" :key="index">
-          <td class="col Kills"><span>Round {{kill.round +1}}</span></td>
+          <td class="col bg-secondary"><span>Round {{kill.round +1}}</span></td>
           <td class="col Kills"><span>{{kill.killer_display_name}}</span></td>
           <td class="col img-fluid">
             <img v-if="kill.damage_weapon_id==='Ability1'" :src="this.AbilityQImg" class="img-fluid " :alt="this.AbilityQImg">
